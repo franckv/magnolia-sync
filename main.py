@@ -44,22 +44,22 @@ def main():
 
     tags = pyg.tags_find(myself)
     for tag in tags:
-        db.insert_tag(tag.name)
+        db.insert_tag(tag.name.lower())
 
-    bookmarks = pyg.bookmarks_find(person=myself,tags='anime')
+    time.sleep(1)
+
+    bookmarks = pyg.bookmarks_find(person=myself)
     for bookmark in bookmarks:
 	url_id = db.insert_url(bookmark.url, bookmark.title)
 	created = str(get_timestamp(bookmark.created))
 	updated = str(get_timestamp(bookmark.updated))
 	db.insert_bookmark(url_id, bookmark.title, created, updated)
-	print bookmark
 	tags = bookmark.tags
 	for tag in tags:
-	    db.insert_bookmark_tag(tag, url_id, bookmark.title, created, updated)
+	    db.insert_bookmark_tag(tag.lower(), url_id, bookmark.title, created, updated)
    
     db.commit()
     db.close()
-    time.sleep(1)
 
 
 
