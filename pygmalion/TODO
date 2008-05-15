@@ -1,0 +1,7 @@
+- Do the setup.py stuff for easy installation
+- Add better handling of errors
+- Add checks for Response status to each call
+- Rename methods and properties to more Pythonic names:
+  * Use underscored_names for both
+  * Remove leading capital letters
+- UNIT TESTS!!!!  

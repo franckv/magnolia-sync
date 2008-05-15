@@ -1,0 +1,35 @@
+A short example on how to use Pygmalion:
+
+First, until I get some sort of distutils deal set up,
+you'll have to create a Pygmalion directory in site-packages
+and copy the source there.  This should be fixed soon.
+
+Using the Module:
+
+import the modules
+
+import Pygmalion
+import Pygmalion.Handlers
+import Pygmalion.Types
+import Pygmalion.Exceptions
+
+pyg = Pygmalion.Pygmalion('YourApiKeyHere')
+
+returns a list of Tag objects
+t = pyg.Tags_Find('inkedmn')
+
+returns a list of Bookmark objects
+b = pyg.Bookmarks_Find(tags='emacs',person='inkedmn')
+c = pyg.Bookmarks_Update(id='voyenir',tags=['foo','bar','baz']) 
+d = pyg.Bookmarks_Delete(['vostigiba'])
+b = pyg.Bookmarks_Add('Test Bookmark','http://somecrap.com',
+                      'description!','0',['foo','bar'],3)
+d = pyg.Bookmarks_Get(['hohogalath','whosestete'])
+
+returns a Response object
+r = pyg.Bookmarks_Tags_Add(['voyenir'],['bling','blong'])
+d = pyg.Bookmarks_Tags_Delete(['voyenir'],['foo'])
+
+This seems to delete the old, but not add the new
+
+p = pyg.Bookmarks_Tags_Replace(['voyenir'],'bar','bling')
