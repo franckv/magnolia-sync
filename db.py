@@ -39,6 +39,15 @@ class SQLConnector():
 	cur = self.con.cursor()
 	cur.execute('delete from moz_bookmarks where type=1')
 
+    def get_tags(self):
+	all_tags = {}
+	cur = self.con.cursor()
+	cur.execute('select id, title from moz_bookmarks where type=2 and parent=4')
+	for row in cur.fetchall():
+	    self.tags[row[1]] = row[0]
+	    all_tags[row[1]] = row[1]
+	return all_tags
+
     def insert_tag(self, tag, now):
 	cur = self.con.cursor()
 
@@ -78,11 +87,12 @@ class SQLConnector():
 	cur.execute('select id from moz_bookmarks where fk=? and parent=5', (url_id, ))
 	row = cur.fetchone()
 	if row != None:
-	    return
+	    return False
 
 	pos = self.get_current_bookmark_position() + 1
 	cur.execute('insert into moz_bookmarks (type, fk, parent, position, title, dateAdded, lastModified) values (?, ?, ?, ?, ?, ?, ?)',
 		('1', url_id, '5', pos, title, created, updated))
+	return True
 
     def insert_bookmark_toolbar(self, url_id, title, created, updated):
 	cur = self.con.cursor()
@@ -106,7 +116,6 @@ class SQLConnector():
 	row = cur.fetchone()
 	if row != None:
 	    return
-
 
 	pos = self.get_current_bookmark_tag_position(tag)
 	cur.execute('insert into moz_bookmarks (type, fk, parent, position, title, dateAdded, lastModified) values (?, ?, ?, ?, ?, ?, ?)',
